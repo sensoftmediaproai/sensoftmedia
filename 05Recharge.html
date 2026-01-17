@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensoft Media | Recharge</title>
+    <link rel="icon" href="logoB.png" type="image/png">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { --primary: #0078d4; --sky-blue: #00aaff; --join-green: #1c830e; --bg: #0d1117; --card: #161b22; --text: #c9d1d9; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; transition: 0.3s; }
+        
+        /* Body setup to allow nav at top and content below */
+        body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        
+        /* Navigation Bar */
+        nav { background: #161b22; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; position: sticky; top:0; z-index: 1000; height: 75px; padding: 0 5%; width: 100%; }
+        .logo-left img { height: 70px; width: auto; object-fit: contain; }
+        .nav-links { list-style: none; display: flex; height: 100%; align-items: center; gap: 8px; }
+        .nav-links a { color: white; text-decoration: none; font-size: 14px; font-weight: bold; width: 115px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; border-radius: 50px; }
+        .nav-links a:hover { background-color: var(--sky-blue) !important; color: #000 !important; }
+        .btn-join { background-color: var(--join-green) !important; }
+
+        /* Pages Layout */
+        .page { display: none; width: 100%; flex: 1; padding: 20px; flex-direction: column; align-items: center; text-align: center; justify-content: center; }
+        .active { display: flex !important; }
+        
+        #splash { background-color: #0d1117; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; }
+        .start-img { width: 100%; max-width: 300px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
+        
+        .content-wrapper { width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center; }
+        .logo { width: 80px; height: 80px; object-fit: contain; margin-bottom: 15px; }
+        .form-card, .price-card { background: #161b22; padding: 15px; border-radius: 12px; border: 1px solid #30363d; width: 100%; }
+        label { display: block; margin-bottom: 2px; font-size: 11px; color: #8b949e; text-align: left; }
+        input { width: 100%; padding: 10px; margin-bottom: 8px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-size: 14px; text-align: center; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        .btn { background-color: #0078d4; color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-price { background-color: #6e7681; font-size: 14px; padding: 10px; }
+        .btn-reset { background-color: #30363d; font-size: 14px; padding: 10px; color: #ff6b6b; border: 1px solid #444; }
+        .amount-tag { font-size: 20px; color: #ffeb3b; font-weight: bold; margin-bottom: 10px; background: #1c2128; padding: 10px; border-radius: 8px; border: 1px dashed #ffeb3b; width: 100%; }
+        .bank-details { background: #161b22; padding: 15px; border-radius: 12px; border: 1px solid #30363d; text-align: center; font-size: 13px; width: 100%; margin-bottom: 10px; line-height: 1.4; }
+        .bank-item { margin-bottom: 8px; }
+        .bank-label { color: #58a6ff; font-weight: bold; display: block; font-size: 11px; text-transform: uppercase; }
+        .price-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #30363d; font-size: 14px; }
+        .price-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+
+<div id="splash" class="page active">
+    <img src="Start.png" class="start-img">
+</div>
+
+<nav>
+    <div class="logo-left"><img src="logoS.png" alt="Sensoft Logo"></div>
+    <ul class="nav-links">
+        <li><a href="01Home.html">Home</a></li>
+        <li><a href="02Images.html">Image</a></li>
+        <li><a href="03Plugins.html">Plugins</a></li>
+        <li><a href="04Software.html">Software</a></li>
+        <li><a href="05Recharge.html">Recharge</a></li> 
+        <li><a class="btn-join" href="06JoinNow.html">Join Now</a></li>
+    </ul>
+</nav>
+
+<div id="page1" class="page">
+    <div class="content-wrapper">
+        <h3 style="color: #58a6ff; margin-bottom: 15px;">SHEET RECHARGE FORM</h3>
+        <div class="form-card">
+            <label>Customer Name</label><input type="text" id="custName">
+            <label>Mobile Number</label><input type="number" id="mobileNo" onkeydown="return filterNumber(event)">
+            <label>Email ID (Small letters only)</label><input type="email" id="emailID" oninput="this.value = this.value.toLowerCase()">
+            <label>Studio Name</label><input type="text" id="studioName">
+            <label>City / Town</label><input type="text" id="city">
+            <label>User ID</label><input type="text" id="userID">
+            <label>System ID</label><input type="text" id="systemID">
+            <label>Pages / Counts</label><input type="number" id="counts" onkeydown="return filterNumber(event)">
+            <button class="btn" onclick="calculateAndNext()">NEXT</button>
+        </div>
+    </div>
+</div>
+
+<div id="page2" class="page">
+    <div class="content-wrapper">
+        <img src="logoB.png" class="logo">
+        <h3 style="color: #58a6ff; font-size: 14px; margin-bottom: 10px;">WhatsApp & GPay: 8489019001</h3>
+        <div id="totalAmount" class="amount-tag">Payable: ₹0</div>
+        
+        <div class="bank-details">
+            <div class="bank-item"><span class="bank-label">A/C Holder</span><b>T.Senthilkumar</b></div>
+            <div class="bank-item"><span class="bank-label">Bank</span><b>Indian Overseas Bank</b></div>
+            <div class="bank-item"><span class="bank-label">A/C No</span><b>248001000000843</b></div>
+            <div class="bank-item"><span class="bank-label">IFSC</span><b>IOBA000248</b></div>
+            <div class="bank-item"><span class="bank-label">Branch</span><b>Singampunari</b></div>             
+        </div>
+        
+        <button class="btn" style="background:#238636;" onclick="sendToWhatsApp()">SEND TO WHATSAPP</button>
+        <div style="display: flex; gap: 10px; width: 100%;">
+            <button class="btn btn-price" onclick="showPage(3)" style="flex:1;">PRICE LIST</button>
+            <button class="btn btn-reset" onclick="resetAndBack()" style="flex:1;">BACK / RESET</button>
+        </div>
+    </div>
+</div>
+
+<div id="page3" class="page">
+    <div class="content-wrapper">
+        <img src="logob.png" class="logo">
+        <h2 style="color: #58a6ff; margin-bottom: 20px;">Price List</h2>
+        <div class="price-card">
+            <div class="price-item"><span>1 - 249 Sheets</span> <b style="color: #ffeb3b;">Rs.10/sheet</b></div>
+            <div class="price-item"><span>250 - 499 Sheets</span> <b style="color: #ffeb3b;">Rs.7.50/sheet</b></div>
+            <div class="price-item"><span>500 - 999 Sheets</span> <b style="color: #ffeb3b;">Rs.5/sheet</b></div>
+            <div class="price-item"><span>1000 & Above</span> <b style="color: #ffeb3b;">Rs.2.50/sheet</b></div>
+        </div>
+        <button class="btn" style="background-color: #21262d; border: 1px solid #30363d; margin-top: 20px;" onclick="showPage(2)">OK BACK</button>
+    </div>
+</div>
+
+<script>
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxUcR4lD1Yd9AxxXdSUkkbgVHUKWgRLtnXtqGLbylUYp3L0ylbQeV6hVp-fBv_DJJ46/exec";
+
+    window.onload = function() { 
+        setTimeout(function() { 
+            document.getElementById('splash').style.display = 'none';
+            showPage(1); 
+        }, 5000); 
+    };
+
+    function filterNumber(e) { if (["e", "E", "+", "-", "."].includes(e.key)) return false; }
+    
+    function showPage(num) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const targetPage = document.getElementById('page' + num);
+        if(targetPage) {
+            targetPage.classList.add('active');
+        }
+    }
+
+    function resetAndBack() {
+        const inputs = ["custName", "mobileNo", "emailID", "studioName", "city", "userID", "systemID", "counts"];
+        inputs.forEach(id => document.getElementById(id).value = ""); 
+        showPage(1); 
+    }
+
+    function calculateAndNext() {
+        const inputs = ["custName", "mobileNo", "emailID", "studioName", "city", "userID", "systemID", "counts"];
+        let isAnyEmpty = false;
+        inputs.forEach(id => { if(document.getElementById(id).value.trim() === "") isAnyEmpty = true; });
+
+        if(isAnyEmpty) { alert("Please fill ALL details!"); return; }
+
+        let email = document.getElementById('emailID').value;
+        if(!email.includes(".com")) { alert("Please enter a valid email address ending with .com"); return; }
+        
+        let count = parseInt(document.getElementById('counts').value);
+        let rate = (count < 250) ? 10 : (count < 500) ? 7.5 : (count < 1000) ? 5 : 2.5;
+        let total = count * rate;
+        document.getElementById('totalAmount').innerHTML = "Payable: ₹" + total.toLocaleString('en-IN');
+        showPage(2);
+    }
+
+    function sendToWhatsApp() {
+        var name = document.getElementById('custName').value;
+        var mobile = document.getElementById('mobileNo').value;
+        var email = document.getElementById('emailID').value;
+        var studio = document.getElementById('studioName').value;
+        var city = document.getElementById('city').value;
+        var uid = document.getElementById('userID').value;
+        var sid = document.getElementById('systemID').value;
+        var count = parseInt(document.getElementById('counts').value);
+        
+        var rate = (count < 250) ? 10 : (count < 500) ? 7.5 : (count < 1000) ? 5 : 2.5;
+        var total = count * rate;
+
+        fetch(GOOGLE_SHEET_URL, {
+            method: "POST", mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: name, mobile: mobile, email: email, studio: studio, city: city,
+                uid: uid, sid: sid, count: count, rate: rate, total: total
+            })
+        });
+
+        var message = "*RECHARGE REQUEST - SENSOFT*%0A%0A" +
+                      "👤 *Name:* " + name + "%0A" +
+                      "📞 *Mobile:* " + mobile + "%0A" +
+                      "📧 *Email:* " + email + "%0A" +
+                      "📸 *Studio:* " + studio + "%0A" +
+                      "📍 *City:* " + city + "%0A" +
+                      "🆔 *User ID:* " + uid + "%0A" +
+                      "🖥️ *System ID:* " + sid + "%0A" +
+                      "📄 *Counts:* " + count + "%0A" +
+                      "💰 *Rate:* Rs." + rate + "%0A" +
+                      "💵 *Total Amount:* ₹" + total.toLocaleString('en-IN') + "%0A%0A" +
+                      "Please find the payment receipt attached.";
+
+        window.location.href = "https://wa.me/918489019001?text=" + message;
+    }
+</script>
+<div style="text-align: center; width: 100%; padding: 20px;">
+    <p style="color: var(--text); line-height: 1.6; font-size: 16px;">
+        Please fill out this form and (Click NEXT Button) send it to our WhatsApp to receive your worksheets. <br>
+        Your order quantity and total payment will be confirmed through this process.
+    </p>
+</div>
+</body>
+</html>

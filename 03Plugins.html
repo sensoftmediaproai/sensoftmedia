@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensoft Media | Plugins</title>
+    <link rel="icon" href="logoB.png" type="image/png">
+    <style>
+        :root { --primary: #0078d4; --sky-blue: #00aaff; --join-green: #1c830e; --bg: #0d1117; --card: #161b22; --text: #c9d1d9; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); overflow-x: hidden; }
+        
+        nav { background: #161b22; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; position: sticky; top:0; z-index: 1000; height: 75px; padding: 0 5%; }
+        .logo-left img { height: 70px; width: auto; object-fit: contain; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; }
+        .nav-links a { color: white; text-decoration: none; font-size: 14px; font-weight: bold; width: 115px; height: 42px; display: flex; align-items: center; justify-content: center; text-transform: uppercase; border-radius: 50px; transition: 0.3s; }
+        .nav-links a:hover { background-color: var(--sky-blue); color: #000; }
+       
+        /* Join Now Button Hover Effect - Blue background and Black text */
+        .btn-join { background-color: var(--join-green) !important; }
+        .nav-links a.btn-join:hover { 
+            background-color: var(--sky-blue) !important; 
+            color: #000000 !important; 
+        }
+
+        .section-container { padding: 0 2%; }
+                
+        .grid-9 { 
+            display: grid; 
+            grid-template-columns: repeat(9, 1fr); 
+            gap: 12px; 
+            padding: 30px 0;
+        }
+
+        .item-card { 
+            background: var(--card); 
+            border: 1px solid #30363d; 
+            border-radius: 10px; 
+            padding: 10px; 
+            text-align: center; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .item-card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--sky-blue); 
+            box-shadow: 0 8px 15px rgba(0, 170, 255, 0.3);
+        }
+
+        .item-card img { 
+            width: 100%; 
+            height: 90px; 
+            object-fit: cover; 
+            border-radius: 6px; 
+            margin-bottom: 8px; 
+            transition: 0.4s;
+            background-color: #21262d; 
+        }
+
+        .item-card:hover img { transform: scale(1.05); }
+
+        .btn-style { 
+            background-color: var(--primary); 
+            color: white; 
+            padding: 7px; 
+            display: block; 
+            border-radius: 4px; 
+            text-decoration: none; 
+            font-size: 10px; 
+            font-weight: bold; 
+            width: 100%; 
+            margin-top: 5px;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-style:hover { background-color: white; color: black; }
+        
+        h2 { margin-top: 30px; border-left: 5px solid var(--sky-blue); padding-left: 12px; font-size: 20px; }
+
+        @media (max-width: 1400px) { .grid-9 { grid-template-columns: repeat(7, 1fr); } }
+        @media (max-width: 1100px) { .grid-9 { grid-template-columns: repeat(5, 1fr); } }
+        @media (max-width: 768px) { .grid-9 { grid-template-columns: repeat(3, 1fr); } }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo-left"><img src="logoS.png" alt="Sensoft Logo"></div>
+    <ul class="nav-links">
+        <li><a href="01Home.html">Home</a></li>
+        <li><a href="02Images.html">Image</a></li>
+        <li><a href="03Plugins.html">Plugins</a></li>
+        <li><a href="04Software.html">Software</a></li>
+        <li><a href="05Recharge.html">Recharge</a></li> 
+        <li><a class="btn-join" href="06JoinNow.html">Join Now</a></li>
+    </ul>
+</nav>
+
+<div class="section-container">
+    <h2>Plugins Collection</h2>
+    <div class="grid-9" id="content-grid"></div>
+</div>
+
+<script>
+    window.onload = () => {
+        const grid = document.getElementById('content-grid');
+        
+        // Card052 முதல் Card078 வரை மொத்தம் 27 கார்டுகள்
+        const pluginsData = [
+            { id: 52, img: "Card052.webp", yt: "YT_LINK_52", drive: "DRIVE_LINK_52" },
+            { id: 53, img: "Card053.webp", yt: "YT_LINK_53", drive: "DRIVE_LINK_53" },
+            { id: 54, img: "Card054.webp", yt: "YT_LINK_54", drive: "DRIVE_LINK_54" },
+            { id: 55, img: "Card055.webp", yt: "YT_LINK_55", drive: "DRIVE_LINK_55" },
+            { id: 56, img: "Card056.webp", yt: "YT_LINK_56", drive: "DRIVE_LINK_56" },
+            { id: 57, img: "Card057.webp", yt: "YT_LINK_57", drive: "DRIVE_LINK_57" },
+            { id: 58, img: "Card058.webp", yt: "YT_LINK_58", drive: "DRIVE_LINK_58" },
+            { id: 59, img: "Card059.webp", yt: "YT_LINK_59", drive: "DRIVE_LINK_59" },
+            { id: 60, img: "Card060.webp", yt: "YT_LINK_60", drive: "DRIVE_LINK_60" },
+            { id: 61, img: "Card061.webp", yt: "YT_LINK_61", drive: "DRIVE_LINK_61" },
+            { id: 62, img: "Card062.webp", yt: "YT_LINK_62", drive: "DRIVE_LINK_62" },
+            { id: 63, img: "Card063.webp", yt: "YT_LINK_63", drive: "DRIVE_LINK_63" },
+            { id: 64, img: "Card064.webp", yt: "YT_LINK_64", drive: "DRIVE_LINK_64" },
+            { id: 65, img: "Card065.webp", yt: "YT_LINK_65", drive: "DRIVE_LINK_65" },
+            { id: 66, img: "Card066.webp", yt: "YT_LINK_66", drive: "DRIVE_LINK_66" },
+            { id: 67, img: "Card067.webp", yt: "YT_LINK_67", drive: "DRIVE_LINK_67" },
+            { id: 68, img: "Card068.webp", yt: "YT_LINK_68", drive: "DRIVE_LINK_68" },
+            { id: 69, img: "Card069.webp", yt: "YT_LINK_69", drive: "DRIVE_LINK_69" },
+            { id: 70, img: "Card070.webp", yt: "YT_LINK_70", drive: "DRIVE_LINK_70" },
+            { id: 71, img: "Card071.webp", yt: "YT_LINK_71", drive: "DRIVE_LINK_71" },
+            { id: 72, img: "Card072.webp", yt: "YT_LINK_72", drive: "DRIVE_LINK_72" },
+            { id: 73, img: "Card073.webp", yt: "YT_LINK_73", drive: "DRIVE_LINK_73" },
+            { id: 74, img: "Card074.webp", yt: "YT_LINK_74", drive: "DRIVE_LINK_74" },
+            { id: 75, img: "Card075.webp", yt: "YT_LINK_75", drive: "DRIVE_LINK_75" },
+            { id: 76, img: "Card076.webp", yt: "YT_LINK_76", drive: "DRIVE_LINK_76" },
+            { id: 77, img: "Card077.webp", yt: "YT_LINK_77", drive: "DRIVE_LINK_77" },
+            { id: 78, img: "Card078.webp", yt: "YT_LINK_78", drive: "DRIVE_LINK_78" }
+        ];
+
+        pluginsData.forEach(data => {
+            grid.innerHTML += `
+                <div class="item-card">
+                    <a href="${data.yt}" target="_blank">
+                        <img src="${data.img}" alt="Plugin ${data.id}" onerror="this.src='placeholder.png'">
+                    </a>
+                    <h3 style="font-size:10px; margin-bottom:5px;">PLUGIN ${data.id}</h3>
+                    <a href="${data.drive}" target="_blank" class="btn-style">DOWNLOAD</a>
+                </div>`;
+        });
+    };
+</script>
+</body>
+</html>

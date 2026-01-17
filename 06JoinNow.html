@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensoft Media | Welcome</title>
+    <link rel="icon" href="logoB.png" type="image/png">
+    <style>
+        :root { 
+            --primary: #0078d4; 
+            --sky-blue: #00aaff; 
+            --join-green: #1c830e; 
+            --bg: #0d1117; 
+            --card: rgba(13, 17, 23, 0.9); 
+            --text: #c9d1d9; 
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            /* 1920x1080 Clear Background Image */
+            background: url('SenImg.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        nav { 
+            background: rgba(22, 27, 34, 0.95); 
+            display: flex; justify-content: space-between; align-items: center; 
+            height: 75px; padding: 0 5%; border-bottom: 1px solid #30363d;
+        }
+        .logo-left img { height: 70px; }
+        .nav-links { list-style: none; display: flex; gap: 10px; }
+        .nav-links a { 
+            color: white; text-decoration: none; font-size: 13px; font-weight: bold; 
+            padding: 10px 20px; border-radius: 50px; text-transform: uppercase; cursor: pointer;
+        }
+        .nav-links a:hover { background: var(--sky-blue); color: black; }
+
+        .container {
+            display: flex; justify-content: center; align-items: center;
+            height: calc(100vh - 75px);
+        }
+
+        .form-card { 
+            background: var(--card); 
+            width: 100%; max-width: 380px;
+            padding: 30px; border-radius: 15px; 
+            border: 1px solid var(--sky-blue);
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            text-align: center;
+        }
+
+        h2 { color: white; margin-bottom: 10px; font-size: 24px; }
+        p.info { font-size: 13px; margin-bottom: 20px; color: #fff; text-shadow: 1px 1px 2px #000; }
+
+        label { display: block; text-align: left; font-size: 12px; margin-bottom: 5px; color: #8b949e; }
+        input { 
+            width: 100%; padding: 12px; margin-bottom: 15px; 
+            background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 5px; 
+            font-size: 16px; outline: none;
+        }
+
+        .btn-main { 
+            width: 100%; padding: 14px; background: var(--primary); 
+            border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 5px;
+            font-size: 14px; text-transform: uppercase;
+        }
+        .btn-main:hover { background: var(--sky-blue); color: black; }
+
+        .captcha-area {
+            background: #1c2128; padding: 15px; border-radius: 8px; 
+            margin-bottom: 15px; border: 1px dashed #444;
+        }
+        .captcha-display {
+            display: flex; justify-content: center; gap: 15px; 
+            margin-top: 8px; font-size: 26px; font-weight: bold; 
+            background: #000; padding: 8px; border-radius: 5px;
+        }
+        
+        #register-form { display: none; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo-left"><img src="logoS1.png" alt="Sensoft Logo"></div>
+    <ul class="nav-links">
+        <li><a onclick="showLogin()">Home</a></li>
+        <li><a style="background: var(--join-green);" onclick="showRegister()">Join Now</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="form-card" id="login-form">
+        <h2>Member Login</h2>
+        <p class="info">Enter your registered mobile number to continue.</p>
+        
+        <label>Mobile Number</label>
+        <input type="number" id="loginMobile" placeholder="e.g. 8489019001">
+        
+        <button id="loginBtn" class="btn-main" onclick="checkLogin()">LOGIN & CONTINUE</button>
+        <p style="margin-top: 20px; font-size: 13px;">New User? <a onclick="showRegister()" style="color: var(--sky-blue); cursor: pointer; font-weight: bold;">Register Here</a></p>
+    </div>
+
+    <div class="form-card" id="register-form">
+        <h2>New Register</h2>
+        <p class="info">Join us to access our services.</p>
+
+        <label>Studio Name</label>
+        <input type="text" id="regStudio" placeholder="Studio Name">
+        <label>Owner Name</label>
+        <input type="text" id="regOwner" placeholder="Owner Name">
+        <label>Mobile Number</label>
+        <input type="number" id="regMobile" placeholder="Mobile Number">
+        <label>City/Town</label>
+        <input type="text" id="regCity" placeholder="City/Town">
+
+        <div class="captcha-area">
+            <label style="color: #fff; font-size: 12px;">Human Check: Type the <b>RED</b> color number:</label>
+            <div id="captcha-box" class="captcha-display"></div>
+            <input type="number" id="captcha-answer" placeholder="Enter Red No" style="margin-top: 10px; margin-bottom: 0px; text-align: center;">
+        </div>
+        
+        <button id="regBtn" class="btn-main" onclick="sendRegistration()">VERIFY & SIGN UP</button>
+        <p style="margin-top: 15px; font-size: 12px;">Already Member? <a onclick="showLogin()" style="color: var(--sky-blue); cursor: pointer;">Login Now</a></p>
+    </div>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxYPbDaem60Nrqk6hgLoG2Iv8E6WiIf5CqQbxOUwJ8W4QZpArez9evt97E1xTCRpWB4ug/exec';
+    let correctVal;
+
+    function showRegister() {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('register-form').style.display = 'block';
+        generateCaptcha();
+    }
+
+    function showLogin() {
+        document.getElementById('register-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+    }
+
+    function generateCaptcha() {
+        const colors = ['#00aaff', '#ff4d4d', '#1c830e', '#f1c40f']; 
+        const box = document.getElementById('captcha-box');
+        box.innerHTML = '';
+        let numbers = [];
+        for(let i=0; i<3; i++) {
+            let n = Math.floor(Math.random() * 90) + 10;
+            let c = (i === 1) ? '#ff4d4d' : colors[i % colors.length];
+            if (i === 1) correctVal = n;
+            let span = document.createElement('span');
+            span.style.color = c;
+            span.innerText = n;
+            numbers.push(span);
+        }
+        numbers.sort(() => Math.random() - 0.5);
+        numbers.forEach(s => box.appendChild(s));
+    }
+
+    // LOGIN CHECK (GET)
+    function checkLogin() {
+        var mobile = document.getElementById('loginMobile').value;
+        var btn = document.getElementById('loginBtn');
+
+        if(mobile.length < 10) { alert("Enter 10-digit mobile number!"); return; }
+
+        btn.innerText = "Verifying...";
+        btn.disabled = true;
+
+        fetch(scriptURL + "?checkMobile=" + mobile)
+        .then(res => res.text())
+        .then(response => {
+            if(response.trim() === "FOUND") {
+                window.location.href = "01Home.html";
+            } else {
+                alert("This mobile number is not registered!");
+                btn.innerText = "LOGIN & CONTINUE";
+                btn.disabled = false;
+            }
+        })
+        .catch(err => {
+            alert("Error connecting to sheet!");
+            btn.innerText = "LOGIN & CONTINUE";
+            btn.disabled = false;
+        });
+    }
+
+    // REGISTER SAVE (POST)
+    function sendRegistration() {
+        var studio = document.getElementById('regStudio').value;
+        var owner = document.getElementById('regOwner').value;
+        var mobile = document.getElementById('regMobile').value;
+        var city = document.getElementById('regCity').value;
+        var captchaInput = document.getElementById('captcha-answer').value;
+        var btn = document.getElementById('regBtn');
+
+        if(!studio || !owner || !mobile || !city) { alert("Please fill all details!"); return; }
+
+        if(parseInt(captchaInput) !== correctVal) {
+            alert("Wrong Answer! Type the RED number.");
+            generateCaptcha();
+            return;
+        }
+
+        btn.innerText = "Saving Data...";
+        btn.disabled = true;
+
+        var formData = new FormData();
+        formData.append("studio", studio);
+        formData.append("owner", owner);
+        formData.append("mobile", mobile);
+        formData.append("city", city);
+
+        fetch(scriptURL, { method: 'POST', body: formData})
+        .then(response => {
+            alert("Registration Success!");
+            var msg = `*NEW REGISTRATION*%0A📸 Studio: ${studio}%0A👤 Owner: ${owner}%0A📞 Mobile: ${mobile}%0A📍 City: ${city}`;
+            window.open("https://wa.me/918489019001?text=" + msg, '_blank');
+            window.location.href = "01Home.html"; 
+        })
+        .catch(error => {
+            alert("Network Error. Moving to Home Page.");
+            window.location.href = "01Home.html";
+        });
+    }
+
+    window.onload = generateCaptcha;
+</script>
+
+</body>
+</html>

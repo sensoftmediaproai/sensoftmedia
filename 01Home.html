@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensoft Media | index</title>
+    <link rel="icon" href="logoB.png" type="image/png">
+    <style>
+        /* 1Index matrum PlainHedding-in orunginaikkappatta CSS */
+        :root { --primary: #0078d4; --sky-blue: #00aaff; --join-green: #1c830e; --bg: #0d1117; --card: #161b22; --text: #c9d1d9; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; transition: 0.3s; }
+        body { background-color: var(--bg); color: var(--text); overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+
+        
+        #flowerCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+        /* NAVIGATION */
+        nav { background: #161b22; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; position: sticky; top:0; z-index: 1000; height: 75px; padding: 0 5%; }
+        .logo-left img { height: 70px; width: auto; object-fit: contain; }
+        .nav-links { list-style: none; display: flex; height: 100%; align-items: center; gap: 8px; }
+        .nav-links a { color: white; text-decoration: none; font-size: 14px; font-weight: bold; width: 115px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; border-radius: 50px; }
+        .nav-links a:hover { background-color: var(--sky-blue) !important; color: #000 !important; }
+        .btn-join { background-color: var(--join-green) !important; }
+
+        /* HERO SLIDER */
+        .hero-container { position: relative; width: 100%; height: 350px; overflow: hidden; background: #000; z-index: 2; }
+        .slide { 
+            position: absolute; width: 100%; height: 100%; opacity: 0; 
+            transition: opacity 1s ease-in-out; background-size: cover; 
+            background-position: center; display: flex; align-items: center; justify-content: center; 
+            text-align: center;
+        }
+        .slide.active { opacity: 5; }
+        
+        .slide-overlay { 
+            background: rgba(0, 0, 0, 0.5); width: 100%; height: 100%; 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; padding: 20px; 
+        }
+        .slide h1 { font-size: 2.2rem; color: #fff; margin-bottom: 10px; }
+        .slide p { font-size: 1.1rem; color: var(--sky-blue); }
+
+        .arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; cursor: pointer; z-index: 10; opacity: 0.7; transition: 0.3s; }
+        .arrow:hover { opacity: 1; transform: translateY(-50%) scale(1.1); }
+        .arrow-left { left: 20px; } .arrow-right { right: 20px; }
+
+        /* 5 CARDS SECTION */
+        .cards-section { padding: 40px 5%; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; position: relative; z-index: 2; }
+        .feature-card { background: var(--card); border: 1px solid #30363d; border-radius: 12px; padding: 15px; text-align: center; transition: 0.4s ease; cursor: pointer; }
+        .feature-card:hover { transform: translateY(-10px); border-color: var(--sky-blue); box-shadow: 0 10px 20px rgba(0, 170, 255, 0.2); }
+        .feature-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+        .feature-card h3 { font-size: 1rem; margin-bottom: 10px; color: #fff; }
+        
+        .card-btn { 
+            background: var(--primary); color: white; border: none; padding: 8px 15px; 
+            border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%;
+            transition: 0.3s; font-size: 12px;
+        }
+        .card-btn:hover { background: var(--sky-blue); color: #000; transform: scale(1.05); }
+
+        /* DROPDOWN SECTION - CUSTOMIZED FOR LEFT & WIDE RIGHT */
+        .section-container { padding: 20px 5% 50px; position: relative; z-index: 2; flex: 1; }
+        
+        .dual-btn-container {
+            display: flex;
+            justify-content: flex-start; /* Left alignment */
+            gap: 20px;
+            width: 100%;
+            margin: 0;
+        }
+
+        /* Terms Button - Fixed width like before */
+        .dropdown-wrapper-left {
+            flex: 0 0 300px; /* Small size for Terms */
+        }
+
+        /* Features Button - Stretching to full right */
+        .dropdown-wrapper-right {
+            flex: 1; /* Takes all remaining space */
+        }
+
+        .terms-dropdown { background: var(--card); border-radius: 12px; border: 1px solid #30363d; overflow: hidden; }
+        
+        .dropdown-btn { 
+            width: 100%; padding: 20px; background: #1c2128; color: #fff; 
+            text-align: left; border: none; outline: none; cursor: pointer; 
+            font-size: 1.2rem; font-weight: bold; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--sky-blue);
+        }
+        .dropdown-btn::after { content: '▼'; font-size: 0.9rem; transition: 0.4s; }
+        .dropdown-btn.active::after { transform: rotate(180deg); }
+        .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.6s ease-in-out; background: var(--card); }
+        .inner-text { padding: 25px; font-size: 0.95rem; line-height: 1.7; color: var(--text); }
+
+        footer { background: #161b22; padding: 20px; text-align: center; border-top: 1px solid #30363d; font-size: 14px; position: relative; z-index: 2; }
+
+        @media (max-width: 768px) { 
+            .cards-section { grid-template-columns: repeat(2, 1fr); } 
+            .dual-btn-container { flex-direction: column; }
+            .dropdown-wrapper-left, .dropdown-wrapper-right { flex: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="flowerCanvas"></canvas>
+
+<nav>
+    <div class="logo-left"><img src="logoS.png" alt="Sensoft Logo"></div>
+    <ul class="nav-links">
+        <li><a href="01Home.html">Home</a></li>
+        <li><a href="02Images.html">Image</a></li>
+        <li><a href="03Plugins.html">Plugins</a></li>
+        <li><a href="04Software.html">Software</a></li>
+        <li><a href="05Recharge.html">Recharge</a></li> 
+        <li><a class="btn-join" href="06JoinNow.html">Join Now</a></li>
+    </ul>
+</nav>
+
+<div class="hero-container" id="main-slider">
+    <img src="left.png" class="arrow arrow-left" onclick="prevSlide()" alt="Left">
+    <img src="right.png" class="arrow arrow-right" onclick="nextSlide()" alt="Right">
+    
+    <div class="slide active" style="background-image: url('Senbg1.webp');"></div>
+    <div class="slide" style="background-image: url('Senbg2.webp');">
+        <div class="slide-overlay">
+            <h1>Ultimate Photoshop FX Resources</h1>
+            <p>Professional Plugins & Softwares Updated Weekly</p>
+        </div>
+    </div>
+    <div class="slide" style="background-image: url('Senbg3.webp');">
+        <div class="slide-overlay">
+            <h1>Unlimited Free Softwares & Plugins</h1>
+            <p>A Complete Collection for Creative Designers</p>
+        </div>
+    </div>
+    <div class="slide" style="background-image: url('Senbg4.webp');">
+        <div class="slide-overlay">
+            <h1>Latest PSD Templates & PNG Clips</h1>
+            <p>Access Our Unlimited Stock Library</p>
+        </div>
+    </div>
+    <div class="slide" style="background-image: url('Senbg5.webp');">
+        <div class="slide-overlay">
+            <h1>Everything You Need For Photoshop</h1>
+            <p>All Creative Tools Available in One Place</p>
+        </div>
+    </div>
+</div>
+
+<div class="cards-section">
+    <div class="feature-card" onclick="openYoutube('https://www.youtube.com/shorts/6j9VDSCukNI?feature=share')">
+        <img src="Card001.webp" alt="Resource">
+        <h3>Premium Assets</h3>
+        <button class="card-btn" onclick="event.stopPropagation(); openDownload('https://drive.google.com/file/d/1jy0Hd7f6LNTjCh1BnLufil9fz7KIAq5z/view?usp=sharing')">DOWNLOAD NOW</button>
+    </div>
+
+    <div class="feature-card" onclick="openYoutube('https://youtube.com/link2')">
+        <img src="Card002.webp" alt="Resource">
+        <h3>Edit Tools</h3>
+        <button class="card-btn" onclick="event.stopPropagation(); openDownload('https://drive.google.com/link2')">DOWNLOAD NOW</button>
+    </div>
+
+    <div class="feature-card" onclick="openYoutube('https://youtube.com/link3')">
+        <img src="Card003.webp" alt="Resource">
+        <h3>AI Software</h3>
+        <button class="card-btn" onclick="event.stopPropagation(); openDownload('https://drive.google.com/link3')">DOWNLOAD NOW</button>
+    </div>
+
+    <div class="feature-card" onclick="openYoutube('https://youtube.com/link4')">
+        <img src="Card004.webp" alt="Resource">
+        <h3>Plugins FX</h3>
+        <button class="card-btn" onclick="event.stopPropagation(); openDownload('https://drive.google.com/link4')">DOWNLOAD NOW</button>
+    </div>
+
+    <div class="feature-card" onclick="openYoutube('https://youtube.com/link5')">
+        <img src="Card005.webp" alt="Resource">
+        <h3>Master Pack</h3>
+        <button class="card-btn" onclick="event.stopPropagation(); openDownload('https://drive.google.com/link5')">DOWNLOAD NOW</button>
+    </div>
+</div>
+
+<div class="section-container">
+    <div class="dual-btn-container">
+        
+        <div class="dropdown-wrapper-left">
+            <div class="terms-dropdown">
+                <button class="dropdown-btn" id="toggleTerms">Terms and Conditions</button>
+                <div class="dropdown-content" id="termsContent">
+                    <div class="inner-text">
+                <p>Welcome to sensoftproai.blogspot.com, a leading digital and software e-commerce website. By accessing and using our website, you agree to comply with these Terms and Conditions. Please read them carefully before using our website.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                <p>1. Acceptance of Terms<p>
+                <p>By using our website, you acknowledge that you have read, understood, and agreed to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please refrain from using our website.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>2. Intellectual Property<p>
+                <p>All content on this website, including but not limited to text, images, and logos, is the property of sensoftproai.blogspot.com or its respective owners. You may not copy, modify, or distribute any content from our website without our prior written consent.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>3. Product Descriptions<p>
+                <p>We make every effort to describe our products as accurately as possible. However, we do not warrant that product descriptions are accurate, complete, reliable, current, or error-free.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>4. Payment<p>
+                <p>We accept various online payment methods, including Credit/Debit Cards, Net Banking, UPI, and other digital modes. We utilize secure payment gateways to ensure the safety and security of your payment information.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>5. Shipping and Delivery<p>
+                <p>We strive to provide fast and reliable shipping and delivery for all our products. Delivery times may vary based on your location and the shipping method selected.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>6. Returns and Refunds<p>
+                <p>We accept returns and provide refunds specifically for defective or damaged products. For further details, please refer to our dedicated Return and Refund Policy.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>7. Disclaimer of Warranties<p>
+                <p>We make no warranties or representations regarding the accuracy, completeness, reliability, or timeliness of the content on our website. We do not guarantee that our website will be error-free or that our servers are free of viruses or other harmful components.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>8. Limitation of Liability<p>
+                <p>We shall not be held liable for any damages, including direct, indirect, incidental, special, or consequential damages, arising out of or in connection with the use of our website or the products and services we provide.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>9. Indemnification<p>
+                <p>You agree to indemnify, defend, and hold harmless sensoftproai.blogspot.com and its affiliates, officers, agents, employees, and partners from any claim, demand, or damages, including reasonable attorney fees, arising out of or related to your use of our website.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>10. Governing Law and Jurisdiction<p>
+                <p>These Terms and Conditions are governed by and construed in accordance with the laws of India. Any disputes arising from or in connection with these terms shall be subject to the exclusive jurisdiction of the courts in New Delhi, India.</p>
+				<p>-----------------------------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>11. Changes to Terms and Conditions<p>
+                <p>We reserve the right to update or modify these Terms and Conditions at any time. Any changes will become effective immediately upon being posted on our website. Your continued use of the website following any changes constitutes your acceptance of the revised terms.</p>
+				<p>_________________________________________________________________________________________________________________________________________________</p>
+				<p>Thank you for choosing Sensoft Media. If you have any questions or concerns regarding these Terms and Conditions, please contact us at: sensoftproai@gmail.com.</p>
+				<p style="margin-top: 20px; font-weight: bold;">Contact: sensoftproai@gmail.com , whatsapp Sensoft Media +918489019001</p>
+				</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown-wrapper-right">
+            <div class="terms-dropdown">
+                <button class="dropdown-btn" id="toggleFeatures">Features</button>
+                <div class="dropdown-content" id="featuresContent">
+                    <div class="inner-text">
+                        <p>* Manual album design is now very easy.</p>
+                        <p>* Beautiful album design in a simple manner.</p>
+                        <p>* Smart album design: Fast, easy, and automatic.</p>
+                        <p>* Unlimited PSD compatibility. <b>SensoftProAi</b></p>
+                        <p>* The Gold Standard of Album Designing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer>Developet by Senthilkumar,Copyright 2006 - 2025 Sensoft Media - All Rights Reserved</footer>
+
+<script>
+    // --- LINK FUNCTION-GAL SERKKAPPATTULLANA ---
+    function openYoutube(url) {
+        if(url) window.open(url, '_blank');
+    }
+
+    function openDownload(url) {
+        if(url) window.open(url, '_blank');
+    }
+
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    function showSlide(index) { slides.forEach(s => s.classList.remove('active')); slides[index].classList.add('active'); }
+    function nextSlide() { currentSlide = (currentSlide + 1) % slides.length; showSlide(currentSlide); }
+    function prevSlide() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; showSlide(currentSlide); }
+    setInterval(nextSlide, 5000);
+
+    // Terms Toggle
+    const btnTerms = document.getElementById("toggleTerms");
+    const contentTerms = document.getElementById("termsContent");
+    btnTerms.addEventListener("click", () => {
+        btnTerms.classList.toggle("active");
+        contentTerms.style.maxHeight = contentTerms.style.maxHeight ? null : contentTerms.scrollHeight + "px";
+    });
+
+    // Features Toggle
+    const btnFeatures = document.getElementById("toggleFeatures");
+    const contentFeatures = document.getElementById("featuresContent");
+    btnFeatures.addEventListener("click", () => {
+        btnFeatures.classList.toggle("active");
+        contentFeatures.style.maxHeight = contentFeatures.style.maxHeight ? null : contentFeatures.scrollHeight + "px";
+    });
+
+    // Flower Animation
+    const canvas = document.getElementById('flowerCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function init() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', init); init();
+    class Particle {
+        constructor() { this.reset(); }
+        reset() { this.x = Math.random()*canvas.width; this.y = -20; this.size = Math.random()*5+2; this.speed = Math.random()*1.5+0.5; this.angle = Math.random()*360; this.spin = Math.random()*2-1; this.type = Math.random()>0.5?'flower':'glitter'; this.color = `hsl(${Math.random()*360},70%,85%)`; }
+        update() { this.y += this.speed; this.angle += this.spin; if(this.y>canvas.height) this.reset(); }
+        draw() { ctx.save(); ctx.translate(this.x,this.y); ctx.rotate(this.angle*Math.PI/180); ctx.fillStyle=this.color; if(this.type==='flower'){ for(let i=0;i<5;i++){ ctx.rotate(72*Math.PI/180); ctx.beginPath(); ctx.ellipse(0,this.size,this.size/2,this.size,0,0,2*Math.PI); ctx.fill(); } } else { ctx.beginPath(); ctx.arc(0,0,this.size/3,0,Math.PI*2); ctx.fill(); } ctx.restore(); }
+    }
+    for(let i=0; i<50; i++) particles.push(new Particle());
+    function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+    animate();
+</script>
+</body>
+</html>
